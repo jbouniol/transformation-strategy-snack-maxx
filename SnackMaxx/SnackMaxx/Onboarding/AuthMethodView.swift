@@ -12,7 +12,7 @@ struct AuthMethodView: View {
                     .tracking(1.8)
                     .foregroundStyle(Mx.orange)
                 MaxxHead(text: "On commence par toi.", size: 34)
-                Text("Ton compte sert à débloquer la paiement express, le vote, le streak.")
+                Text("Ton compte sert à débloquer le paiement express, le vote, le streak.")
                     .font(MxFont.body(14))
                     .foregroundStyle(Mx.ink2)
                     .padding(.top, 4)

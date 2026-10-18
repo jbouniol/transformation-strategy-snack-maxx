@@ -163,10 +163,22 @@ struct ProductDetailView: View {
 
     private var nutriRow: some View {
         HStack(spacing: 0) {
-            nutriItem("PROTÉINES", "6g", showDivider: true)
-            nutriItem("GLUCIDES",  "28g", showDivider: true)
-            nutriItem("SUCRES",    "12g", showDivider: true)
-            nutriItem("SEL",       "0.8g", showDivider: false)
+            if product.category == .drinks {
+                nutriItem("PROTÉINES", "0g", showDivider: true)
+                nutriItem("GLUCIDES", product.kcal == 0 ? "0g" : "11g", showDivider: true)
+                nutriItem("SUCRES", product.kcal == 0 ? "0g" : "11g", showDivider: true)
+                nutriItem("SEL", "0.0g", showDivider: false)
+            } else if product.category == .fit {
+                nutriItem("PROTÉINES", product.name.contains("Proteine") ? "22g" : "15g", showDivider: true)
+                nutriItem("GLUCIDES",  "14g", showDivider: true)
+                nutriItem("SUCRES",    "2g", showDivider: true)
+                nutriItem("SEL",       "0.2g", showDivider: false)
+            } else {
+                nutriItem("PROTÉINES", "6g", showDivider: true)
+                nutriItem("GLUCIDES",  "28g", showDivider: true)
+                nutriItem("SUCRES",    "12g", showDivider: true)
+                nutriItem("SEL",       "0.8g", showDivider: false)
+            }
         }
         .padding(.vertical, 12)
         .mxCard()

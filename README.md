@@ -99,7 +99,7 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 ## File layout
 
 ```
-albert-snack-maxx/
+transformation-strategy-snack-maxx/
 ├── CLAUDE.md                       # Project context for AI agents
 ├── README.md                       # ← you are here
 ├── claude-design/                  # HTML/CSS/JS source design (do not edit)

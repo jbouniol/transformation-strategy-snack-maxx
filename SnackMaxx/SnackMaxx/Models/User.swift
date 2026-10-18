@@ -59,6 +59,10 @@ struct SnackUser: Codable, Equatable {
     }
     var initials: String {
         let parts = name.split(separator: " ")
+        if parts.isEmpty { return "" }
+        if parts.count == 1 {
+            return String(parts[0].prefix(2)).uppercased()
+        }
         let first = parts.first?.first.map { String($0) } ?? ""
         let last  = parts.dropFirst().first?.first.map { String($0) } ?? ""
         return (first + last).uppercased()

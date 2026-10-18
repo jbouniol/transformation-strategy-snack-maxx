@@ -227,7 +227,7 @@ struct PayConfirmView: View {
                 .padding(.top, 8)
 
             MaxxButton("Récupéré, merci !", variant: .primary, size: .lg, full: true, action: {
-                state.closePay()
+                state.completePurchase(product: product)
             }) {
                 MxIcon(name: .check, size: 20, color: .white)
             }

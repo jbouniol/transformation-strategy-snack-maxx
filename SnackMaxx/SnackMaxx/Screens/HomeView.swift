@@ -3,9 +3,16 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var state: AppState
 
-    private var featured: [Product] { MockData.products.filter { $0.hot } }
-    private var lowStock: [Product] { MockData.products.filter { $0.low } }
-    private var usuals: [(product: Product, times: Int)] { MockData.usuals() }
+    private var featured: [Product] { state.products.filter { $0.hot } }
+    private var lowStock: [Product] { state.products.filter { $0.low } }
+    private var usuals: [(product: Product, times: Int)] {
+        var counts: [String: Int] = [:]
+        for p in state.purchases { counts[p.productId, default: 0] += 1 }
+        return counts.sorted { $0.value > $1.value }.prefix(4).compactMap { dict in
+            guard let p = state.products.first(where: { $0.id == dict.key }) else { return nil }
+            return (product: p, times: dict.value)
+        }
+    }
     private var topPick: (product: Product, times: Int)? { usuals.first }
 
     var body: some View {
@@ -34,8 +41,8 @@ struct HomeView: View {
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
-                        ForEach(MockData.purchases.prefix(4)) { p in
-                            if let prod = MockData.products.first(where: { $0.id == p.productId }),
+                        ForEach(state.purchases.prefix(4)) { p in
+                            if let prod = state.products.first(where: { $0.id == p.productId }),
                                let mach = MockData.machines.first(where: { $0.id == p.machineId }) {
                                 ReorderCard(product: prod, machine: mach, relative: p.relative) {
                                     state.reorder(prod)

@@ -6,7 +6,7 @@ struct SnacksView: View {
     @State private var query: String = ""
 
     private var items: [Product] {
-        MockData.products.filter { p in
+        state.products.filter { p in
             (category == .all || p.category == category) &&
             (query.isEmpty || (p.name + " " + p.flavor).localizedCaseInsensitiveContains(query))
         }

@@ -4,7 +4,7 @@ struct HistoryView: View {
     @EnvironmentObject var state: AppState
 
     private var monthSpend: Double {
-        MockData.purchases.reduce(0) { $0 + $1.price }
+        state.purchases.reduce(0) { $0 + $1.price }
     }
 
     var body: some View {
@@ -16,8 +16,8 @@ struct HistoryView: View {
                 SectionHeader(title: "Toutes mes commandes")
 
                 VStack(spacing: 10) {
-                    ForEach(MockData.purchases) { h in
-                        if let p = MockData.products.first(where: { $0.id == h.productId }),
+                    ForEach(state.purchases) { h in
+                        if let p = state.products.first(where: { $0.id == h.productId }),
                            let m = MockData.machines.first(where: { $0.id == h.machineId }) {
                             purchaseRow(purchase: h, product: p, machine: m)
                         }
@@ -39,7 +39,7 @@ struct HistoryView: View {
                 Text(formatEur(monthSpend))
                     .font(MxFont.body(28, weight: .bold))
                     .foregroundStyle(Mx.ink)
-                Text("· \(MockData.purchases.count) snacks")
+                Text("· \(state.purchases.count) snacks")
                     .font(MxFont.body(12))
                     .foregroundStyle(Mx.mute)
             }

@@ -32,6 +32,10 @@ final class AppState: ObservableObject {
     @Published var payTargetProduct: Product? = nil
     @Published var payTargetMachine: Machine? = nil
     @Published var votes: [VoteRequest] = MockData.votes
+    @Published var products: [Product] = MockData.products
+    @Published var purchases: [Purchase] = MockData.purchases
+    @Published var extraPoints: Int = 0
+    @Published var pastTickets: [PastTicket] = MockData.pastTickets
 
     @AppStorage("user.name") var userName: String = ""
     @AppStorage("user.onboarded") var onboarded: Bool = false
@@ -39,9 +43,24 @@ final class AppState: ObservableObject {
     var user: SnackUser {
         get {
             var u = SnackUser.mock
-            if !userName.isEmpty { u.name = userName }
+            if !userName.isEmpty {
+                u.name = userName
+                let first = u.firstName.lowercased()
+                u.email = "\(first)@snackmaxx.com"
+            }
+            u.monthSpend = purchases.reduce(0) { $0 + $1.price }
             return u
         }
+    }
+
+    func completePurchase(product: Product) {
+        if let idx = products.firstIndex(where: { $0.id == product.id }) {
+            products[idx].stock = max(0, products[idx].stock - 1)
+        }
+        let newPurchase = Purchase(id: UUID().uuidString, product: product, machine: machine.name, price: product.price, date: Date())
+        purchases.insert(newPurchase, at: 0)
+        extraPoints += Int(product.price * 10)
+        closePay()
     }
 
     func openPay(product: Product, machine: Machine? = nil) {

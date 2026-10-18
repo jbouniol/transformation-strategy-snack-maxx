@@ -182,6 +182,10 @@ struct VoteView: View {
                         }
                         .buttonStyle(.plain)
                         Button {
+                            if !suggest.isEmpty {
+                                let newVote = VoteRequest(id: UUID().uuidString, title: suggest, desc: "Suggéré par \(state.user.firstName)", votes: 1, voted: true, category: "Nouveau")
+                                state.votes.append(newVote)
+                            }
                             suggestOpen = false; suggest = ""
                         } label: {
                             Text("Soumettre")

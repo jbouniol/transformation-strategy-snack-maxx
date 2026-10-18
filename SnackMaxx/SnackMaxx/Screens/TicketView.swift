@@ -196,7 +196,12 @@ struct TicketView: View {
             .padding(.horizontal, 18)
 
             MaxxButton("Envoyer le signalement", variant: .primary, size: .lg, full: true,
-                       action: { step = .success }) {
+                       action: {
+                           let title = selectedType?.label ?? "Signalement"
+                           let newTicket = PastTicket(id: UUID().uuidString, title: title, desc: notes.isEmpty ? "Pas de détails" : notes, date: Date(), status: "EN COURS", color: .warn)
+                           state.pastTickets.insert(newTicket, at: 0)
+                           step = .success
+                       }) {
                 MxIcon(name: .check, size: 20, color: .white)
             }
             .padding(.horizontal, 18)

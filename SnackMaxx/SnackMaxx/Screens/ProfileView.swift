@@ -6,7 +6,7 @@ struct ProfileView: View {
     private let favIds = ["p01", "p09", "p07"]
     private let savedIds = ["m01", "m03"]
 
-    private var favs: [Product] { favIds.compactMap { id in MockData.products.first(where: { $0.id == id }) } }
+    private var favs: [Product] { favIds.compactMap { id in state.products.first(where: { $0.id == id }) } }
     private var saved: [Machine] { savedIds.compactMap { id in MockData.machines.first(where: { $0.id == id }) } }
 
     var body: some View {
@@ -35,7 +35,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 18)
 
                 HStack(spacing: 8) {
-                    statCard(title: "SNACKS", value: "\(MockData.purchases.count)", sub: "ce mois")
+                    statCard(title: "SNACKS", value: "\(state.purchases.count)", sub: "ce mois")
                     statCard(title: "DÉPENSÉ", value: formatEur(state.user.monthSpend), sub: "ce mois")
                     statCard(title: "ÉCONOMISÉ", value: formatEur(state.user.monthSaved), sub: "via le club")
                 }
@@ -207,13 +207,13 @@ struct ProfileView: View {
 
     private var activitiesList: some View {
         VStack(spacing: 0) {
-            row(icon: .history, label: "Historique d'achats", sub: "\(MockData.purchases.count) achats", first: true) {
+            row(icon: .history, label: "Historique d'achats", sub: "\(state.purchases.count) achats", first: true) {
                 state.overlay = .history
             }
             row(icon: .vote, label: "Mes votes",
                 sub: "\(state.votes.filter { $0.voted }.count) actifs") { state.overlay = .vote }
             row(icon: .ticket, label: "Mes signalements",
-                sub: "\(MockData.pastTickets.filter { $0.color == .warn }.count) en cours") { state.overlay = .ticket }
+                sub: "\(state.pastTickets.filter { $0.color == .warn }.count) en cours") { state.overlay = .ticket }
             row(icon: .trophy, label: "Mon club Maxx",
                 sub: "\(state.user.tier.label) · \(state.user.streak)j de streak") { state.overlay = .loyalty }
         }
