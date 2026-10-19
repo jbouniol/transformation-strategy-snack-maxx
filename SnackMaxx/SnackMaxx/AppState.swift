@@ -25,17 +25,54 @@ enum AppOverlay: Identifiable, Equatable {
 @MainActor
 final class AppState: ObservableObject {
     @Published var tab: AppTab = .home
-    @Published var machine: Machine = MockData.machines[0]
+    @Published var machine: Machine = MockData.machines[0] {
+        didSet {
+            updateProductsForCurrentMachine()
+        }
+    }
     @Published var selectedProduct: Product? = nil
     @Published var overlay: AppOverlay? = nil
     @Published var scanOpen: Bool = false
     @Published var payTargetProduct: Product? = nil
     @Published var payTargetMachine: Machine? = nil
     @Published var votes: [VoteRequest] = MockData.votes
+
+    @Published var machineStocks: [String: [String: Int]] = {
+        var dict: [String: [String: Int]] = [:]
+        for m in MockData.machines {
+            var stocks: [String: Int] = [:]
+            if m.id == "m05" {
+                for p in MockData.products { stocks[p.id] = 0 }
+            } else {
+                for p in MockData.products {
+                    stocks[p.id] = max(0, p.stock + Int.random(in: -2...4))
+                }
+            }
+            dict[m.id] = stocks
+        }
+        return dict
+    }()
+
     @Published var products: [Product] = MockData.products
     @Published var purchases: [Purchase] = MockData.purchases
     @Published var extraPoints: Int = 0
     @Published var pastTickets: [PastTicket] = MockData.pastTickets
+
+
+    init() {
+        updateProductsForCurrentMachine()
+    }
+
+    private func updateProductsForCurrentMachine() {
+        if let stocks = machineStocks[machine.id] {
+            for i in products.indices {
+                if let stock = stocks[products[i].id] {
+                    products[i].stock = max(0, stock)
+                    products[i].empty = (stock <= 0)
+                }
+            }
+        }
+    }
 
     @AppStorage("user.name") var userName: String = ""
     @AppStorage("user.onboarded") var onboarded: Bool = false
@@ -56,6 +93,8 @@ final class AppState: ObservableObject {
     func completePurchase(product: Product) {
         if let idx = products.firstIndex(where: { $0.id == product.id }) {
             products[idx].stock = max(0, products[idx].stock - 1)
+            products[idx].empty = (products[idx].stock <= 0)
+            machineStocks[machine.id]?[product.id] = products[idx].stock
         }
         let newPurchase = Purchase(id: UUID().uuidString, product: product, machine: machine.name, price: product.price, date: Date())
         purchases.insert(newPurchase, at: 0)

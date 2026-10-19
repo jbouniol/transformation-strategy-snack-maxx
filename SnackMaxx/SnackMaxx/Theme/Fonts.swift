@@ -3,7 +3,7 @@ import SwiftUI
 enum MxFont {
     static let display = "BowlbyOne-Regular"
     static let head    = "ArchivoBlack-Regular"
-    static let body    = "SpaceGrotesk-Regular"
+    static let body    = "Space Grotesk"
     static let accent  = "Bungee-Regular"
 
     static func display(_ size: CGFloat) -> Font {

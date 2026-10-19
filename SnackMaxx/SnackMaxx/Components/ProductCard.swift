@@ -52,6 +52,16 @@ struct ProductCard: View {
                         .font(MxFont.body(11))
                         .foregroundStyle(Mx.mute)
                         .lineLimit(1)
+                    if product.sponsored {
+                        Text("SPONSORISÉ")
+                            .font(MxFont.body(9, weight: .bold))
+                            .tracking(0.5)
+                            .foregroundStyle(Mx.mute)
+                            .padding(.horizontal, 4).padding(.vertical, 2)
+                            .background(Mx.line)
+                            .cornerRadius(4)
+                            .padding(.top, 2)
+                    }
                     HStack(spacing: 6) {
                         Text(String(format: "%.2f €", product.price).replacingOccurrences(of: ".", with: ","))
                             .font(MxFont.body(16, weight: .bold))

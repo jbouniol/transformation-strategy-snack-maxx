@@ -26,15 +26,16 @@ struct Product: Identifiable, Hashable {
     let name: String
     let flavor: String
     let price: Double
-    let stock: Int
+    var stock: Int
     let hot: Bool
     let low: Bool
-    let empty: Bool
+    var empty: Bool
     let kcal: Int
     let colorHex: UInt32
     let accentHex: UInt32
     let slot: String
     let tagline: String
+    var sponsored: Bool = false
 
     var color: Color { Color(hex: colorHex) }
     var accent: Color { Color(hex: accentHex) }

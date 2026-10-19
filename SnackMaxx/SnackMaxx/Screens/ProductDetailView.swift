@@ -40,10 +40,21 @@ struct ProductDetailView: View {
 
                     // info
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(product.flavor.uppercased())
-                            .font(MxFont.head(10))
-                            .tracking(1.6)
-                            .foregroundStyle(Mx.orange)
+                        HStack {
+                            Text(product.flavor.uppercased())
+                                .font(MxFont.head(10))
+                                .tracking(1.6)
+                                .foregroundStyle(Mx.orange)
+                            if product.sponsored {
+                                Text("SPONSORISÉ")
+                                    .font(MxFont.head(9))
+                                    .tracking(0.5)
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 6).padding(.vertical, 3)
+                                    .background(Mx.orange)
+                                    .cornerRadius(4)
+                            }
+                        }
                         HStack(alignment: .lastTextBaseline) {
                             MaxxHead(text: product.name, size: 30)
                             Spacer()

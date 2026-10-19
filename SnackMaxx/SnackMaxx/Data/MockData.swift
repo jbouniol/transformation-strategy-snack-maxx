@@ -54,7 +54,7 @@ enum MockData {
                 name: "Maxx Fuel", flavor: "Energy Original",
                 price: 2.50, stock: 22, hot: false, low: false, empty: false, kcal: 110,
                 colorHex: 0x2BB4E8, accentHex: 0xFFD23F, slot: "D1",
-                tagline: "Plein gaz, zéro filtre"),
+                tagline: "Plein gaz, zéro filtre", sponsored: true),
         Product(id: "p10", category: .drinks, kind: .can,
                 name: "Maxx Volt", flavor: "Lemon Voltage",
                 price: 2.50, stock: 11, hot: true, low: false, empty: false, kcal: 95,
@@ -81,30 +81,30 @@ enum MockData {
                 name: "Maxx Proteine", flavor: "Choco Whey",
                 price: 2.80, stock: 5, hot: false, low: true, empty: false, kcal: 210,
                 colorHex: 0x1376B8, accentHex: 0xFFE4B0, slot: "E2",
-                tagline: "22g de protéines"),
+                tagline: "22g de protéines", sponsored: true),
     ]
 
     static let machines: [Machine] = [
-        Machine(id: "m01", name: "Lycée Voltaire — Hall A",
-                distance: 0.05, status: .live, products: 38,
-                restock: "il y a 2h", address: "12 av. de la République, 75011",
-                open: true, stockHealth: 94),
-        Machine(id: "m02", name: "Gare du Nord — Quai 4",
-                distance: 1.30, status: .live, products: 42,
-                restock: "il y a 6h", address: "Niveau -1, près des taxis",
+        Machine(id: "m01", name: "Campus Sorbonne — Hall B",
+                distance: 0.045, status: .live, products: 38,
+                restock: "il y a 2h", address: "Paris 5e · Niveau -1",
                 open: true, stockHealth: 86),
-        Machine(id: "m03", name: "Skatepark Bercy",
-                distance: 2.40, status: .live, products: 28,
-                restock: "hier, 21:30", address: "Quai de Bercy, 75012",
-                open: true, stockHealth: 72),
-        Machine(id: "m04", name: "Université Tolbiac — B1",
-                distance: 3.10, status: .warn, products: 19,
-                restock: "il y a 3 jours", address: "90 rue de Tolbiac, 75013",
-                open: true, stockHealth: 38),
-        Machine(id: "m05", name: "Salle de muscu MaxxGym",
-                distance: 4.80, status: .live, products: 35,
-                restock: "il y a 1h", address: "Rue Oberkampf, 75011",
-                open: true, stockHealth: 91),
+        Machine(id: "m02", name: "Université Paris Dauphine — Cafétéria",
+                distance: 0.320, status: .live, products: 42,
+                restock: "il y a 6h", address: "Paris 16e · RDC Aile Est",
+                open: true, stockHealth: 92),
+        Machine(id: "m03", name: "Sciences Po — Bibliothèque",
+                distance: 0.680, status: .live, products: 28,
+                restock: "hier, 21:30", address: "Paris 7e · 27 rue Saint-Guillaume",
+                open: true, stockHealth: 64),
+        Machine(id: "m04", name: "Station Châtelet — Sortie 1",
+                distance: 1.10, status: .live, products: 19,
+                restock: "il y a 3 jours", address: "Paris 1er · Hall correspondances",
+                open: true, stockHealth: 74),
+        Machine(id: "m05", name: "Gare du Nord — Quai Transilien",
+                distance: 2.30, status: .offline, products: 0,
+                restock: "il y a 1h", address: "Paris 10e · Niveau -1 (Maintenance)",
+                open: false, stockHealth: 0),
     ]
 
     static let purchases: [Purchase] = [
@@ -127,7 +127,7 @@ enum MockData {
     ]
 
     static let votesFulfilled: [VoteFulfilled] = [
-        VoteFulfilled(id: "f01", name: "Maxx Inferno", date: "il y a 2 semaines", machine: "Lycée Voltaire"),
+        VoteFulfilled(id: "f01", name: "Maxx Inferno", date: "il y a 2 semaines", machine: "Campus Sorbonne"),
         VoteFulfilled(id: "f02", name: "Maxx Volt",    date: "il y a 1 mois",     machine: "Gare du Nord"),
     ]
 
@@ -141,8 +141,8 @@ enum MockData {
     ]
 
     static let pastTickets: [PastTicket] = [
-        PastTicket(id: "t01", date: "Hier · 19:00", machine: "Skatepark Bercy", type: "Slot vide",      status: "Remboursé", color: .ok),
-        PastTicket(id: "t02", date: "Lun · 11:32",  machine: "Lycée Voltaire",  type: "Mauvais produit", status: "En cours",  color: .warn),
+        PastTicket(id: "t01", date: "Hier · 19:00", machine: "Sciences Po", type: "Slot vide",      status: "Remboursé", color: .ok),
+        PastTicket(id: "t02", date: "Lun · 11:32",  machine: "Campus Sorbonne",  type: "Mauvais produit", status: "En cours",  color: .warn),
     ]
 
     /// Top usuals derived from purchases (productId, count).

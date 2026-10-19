@@ -110,7 +110,11 @@ struct ScanView: View {
         guard !done else { return }
         withAnimation(.easeInOut(duration: 0.2)) { done = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-            state.machine = MockData.machines[0]
+            if !state.machine.open {
+                if let nextOpen = MockData.machines.first(where: { $0.open }) {
+                    state.machine = nextOpen
+                }
+            }
             state.switchTo(.snacks)
             state.scanOpen = false
         }
@@ -126,7 +130,7 @@ struct ScanView: View {
                 }
                 .frame(width: 96, height: 96)
                 MaxxHead(text: "Distributeur reconnu", size: 22, color: .white)
-                Text("Lycée Voltaire — Hall A")
+                Text(state.machine.name)
                     .font(MxFont.body(14, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.85))
             }
